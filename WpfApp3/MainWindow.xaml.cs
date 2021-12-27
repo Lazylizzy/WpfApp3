@@ -25,6 +25,23 @@ namespace WpfApp3
         public MainWindow()
         {
             InitializeComponent();
+            List<string> styles = new List<string>() { "Светлая тема", "Темная тема" };
+            styleBox.ItemsSource = styles;            
+            styleBox.SelectionChanged += ThemeChange;
+            styleBox.SelectedIndex = 0;
+        }
+
+        private void ThemeChange(object sender, SelectionChangedEventArgs e)
+        {
+            int styleIndex = styleBox.SelectedIndex;
+            Uri uri = new Uri("Light.xaml", UriKind.Relative);
+            if (styleIndex == 1)
+            {
+                uri = new Uri("Dark.xaml", UriKind.Relative);
+            }
+            ResourceDictionary resourse = Application.LoadComponent(uri) as ResourceDictionary;
+            Application.Current.Resources.Clear();
+            Application.Current.Resources.MergedDictionaries.Add(resourse);
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
